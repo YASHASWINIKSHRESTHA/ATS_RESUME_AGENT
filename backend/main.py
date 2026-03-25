@@ -56,7 +56,7 @@ app.mount("/outputs", StaticFiles(directory=str(OUTPUT_DIR)), name="outputs")
 # ─── Utilities ───────────────────────────────────────────────────────────────
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
-    """Extract text from PDF bytes."""
+    """Extract text and embedded links from PDF bytes."""
     with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
         tmp.write(file_bytes)
         tmp_path = tmp.name
@@ -66,6 +66,16 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
         text = ""
         for page in reader.pages:
             text += page.extract_text() + "\n"
+            # Extract embedded URIs (hyperlinks)
+            if "/Annots" in page:
+                for annot in page["/Annots"]:
+                    try:
+                        obj = annot.get_object()
+                        if "/A" in obj and "/URI" in obj["/A"]:
+                            uri = obj["/A"]["/URI"]
+                            text += f"\n[Embedded Link: {uri}]"
+                    except Exception:
+                        pass
         return text.strip()
     finally:
         os.unlink(tmp_path)

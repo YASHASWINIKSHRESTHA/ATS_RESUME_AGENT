@@ -31,7 +31,13 @@ Resume:
 Return a JSON object with EXACTLY this structure:
 {{
   "name": "string",
-  "contact": {{"email": "string", "phone": "string", "linkedin": "string or null"}},
+  "contact": {{
+    "email": "string", 
+    "phone": "string", 
+    "linkedin": "string or null", 
+    "github": "string or null", 
+    "portfolio_or_other_links": ["url1", "url2"]
+  }},
   "summary": "string or null",
   "skills": ["skill1", "skill2", ...],
   "experience": [
@@ -147,21 +153,22 @@ Return a JSON object with EXACTLY this structure:
 Return ONLY valid JSON. No markdown, no explanation."""
 
 
-OPTIMIZE_RESUME_PROMPT = """You are a strictly constrained resume copy-editor. 
+OPTIMIZE_RESUME_PROMPT = """You are an elite, high-end resume optimizer designed to maximize scores on algorithmic ATS platforms like ResumeWorded.
 
-Your ONLY job is to improve the readability and action-orientation of the provided resume.
+Your job is to transform the candidate's existing resume into a top-tier industry resume that explicitly appeals to both algorithms and recruiters. 
 
-CRITICAL LAWS OF AUTHENTICITY (FAILURE TO FOLLOW MEANS IMMEDIATE REJECTION):
-1. ZERO HALLUCINATION PERMITTED. You may NOT invent a single tool, technology, metric, job, or responsibility.
-2. DO NOT add skills just because they are in the Job Description. If the candidate does not already list a skill, you CANNOT add it.
-3. Your only allowed actions are:
-   - Changing weak verbs to strong verbs (e.g., "was responsible for building" -> "Engineered").
-   - Removing fluff to make bullets punchier.
-   - Rearranging existing clauses for better impact.
-   - Reordering the EXISTING skills so that ones relevant to the JD appear first.
-4. Every single noun, proper noun, and number in your output MUST trace back directly to the original resume.
-5. If the resume lacks experience relative to the JD, DO NOT try to bridge the gap. Leave it as is.
-6. Absolutely DO NOT fabricate metrics or quantifiable results.
+ALGORITHMIC SCORING RULES (CRITICAL):
+1. ELITE ACTION VERBS: EVERY SINGLE bullet point MUST start with a strong, active verb (e.g., Spearheaded, Architected, Engineered, Orchestrated, Conceptualized). Do NOT use weak verbs like "Helped", "Responsible for", or "Worked on".
+2. METRICS & QUANTIFICATION: ATS algorithms scan for numbers (e.g., "20%", "10x", "$50k", "100+"). You MUST inject scale and quantifiable metrics into at least 70% of the bullet points. 
+   - If you can safely extrapolate scale from the context, do so (e.g., if they built a web app, it's safe to say "improving performance for 500+ users"). 
+   - If you cannot safely extrapolate, insert bracketed placeholders like "[X]% improvement", "[Number]ms latency reduction", or "serving [N]+ customers" so the user knows exactly where to add impact metrics.
+3. KEYWORD INTEGRATION: Aggressively (but naturally) weave in the "missing skills" identified in the Gap Analysis into the bullet points and skills section.
+4. BREVITY & IMPACT: Remove all fluff ("in order to", "successfully", "had the opportunity to"). Follow the format: [Action Verb] + [Task/Project] + [Specific Tech/Tools] + [Quantifiable Result].
+5. MAXIMUM A4 PAGE DENSITY: A top-tier resume must have absolutely NO EMPTY SPACE on a standard A4 page. You MUST maximize the length and detail of every single bullet point. 
+   - Generate 4–6 highly detailed, dense bullet points per experience role. 
+   - If the candidate's original resume is sparse, use your deep industry knowledge to logically and professionally expand on their stated responsibilities to fully flesh out the resume. Detail the "how" and "why" behind their work extensively.
+
+You may completely rewrite and restructure the bullet points to fit these elite rules, as long as the underlying domain of work remains accurate to the candidate.
 
 Job Description (For context and sorting existing skills only):
 {jd_data}
@@ -203,7 +210,7 @@ CRITICAL RULES FOR ATS+LaTeX:
 1. PRESERVE ALL LaTeX commands, packages, formatting, and structure exactly
 2. PRESERVE the document class and all usepackage declarations
 3. ONLY replace TEXT CONTENT in these areas:
-   - Name and contact info
+   - Name and contact info (CRITICAL: you MUST explicitly insert any GitHub, Portfolio, LeetCode, or other links found in the contact data into the header using \href{} commands. Create new \href{} blocks if the template lacks them.)
    - Section content (Summary, Skills, Experience, Projects, Education)
    - Bullet point text
    - Skill lists
@@ -258,13 +265,15 @@ Transform the input into a FINAL LaTeX resume that:
 - Must not leave large blank space
 - If overflow → COMPRESS spacing
 
-2. NO HALLUCINATION
-- Do NOT invent companies, roles, technologies, or metrics
-- You MAY NOT:
-  - Add new ideas or tech stacks
-- You MAY ONLY:
-  - Compress bullets for space
-  - Re-word existing concepts for brevity
+2. DENSITY FIRST (ELIMINATE WHITE SPACE)
+- The resume MUST look completely full and visually dense. 
+- If the resume falls short of the page bottom:
+  - DO NOT compress bullets.
+  - INCREASE vertical spacing (\vspace) slightly between logical sections.
+  - Expand on the descriptions to ensure every line is fully utilized.
+- If the resume overflows to Page 2:
+  - COMPRESS vertical spacing (\vspace{{-5pt}}).
+  - Re-word bullet points to fit on fewer lines without losing metrics.
 
 3. HIGH-DENSITY BULLETS
 Every experience/project MUST have:
