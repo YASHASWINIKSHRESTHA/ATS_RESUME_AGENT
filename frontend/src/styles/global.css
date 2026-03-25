@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --blue:    #3B82F6;
+  --violet:  #8B5CF6;
+  --bg:      #000000;
+  --bg-1:    #0A0A0A;
+  --bg-2:    #111111;
+  --text:    #F9FAFB;
+  --muted:   #9CA3AF;
+  --label:   #D1D5DB;
+  --divider: #1F2937;
+  --border:  rgba(255,255,255,0.08);
+  --glass:   rgba(255,255,255,0.05);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  color: #F9FAFB;
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.6); }
+
+::selection { background: rgba(59,130,246,0.25); }
+
+/* ── Snowfall Animations ────────────────────────────────────────── */
+@keyframes snow-fall-1 {
+  0%   { transform: translateY(-10px) translateX(0px); opacity: 0; }
+  5%   { opacity: 0.7; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(110vh) translateX(30px); opacity: 0; }
+}
+@keyframes snow-fall-2 {
+  0%   { transform: translateY(-10px) translateX(0px); opacity: 0; }
+  5%   { opacity: 0.5; }
+  50%  { transform: translateY(55vh)  translateX(-20px); }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(110vh) translateX(15px); opacity: 0; }
+}
+@keyframes snow-fall-3 {
+  0%   { transform: translateY(-10px) translateX(0px); opacity: 0; }
+  8%   { opacity: 0.6; }
+  40%  { transform: translateY(40vh)  translateX(25px); }
+  75%  { transform: translateY(75vh)  translateX(-10px); }
+  100% { transform: translateY(110vh) translateX(20px); opacity: 0; }
+}
+@keyframes snow-sway {
+  0%,100% { transform: translateX(0); }
+  50%      { transform: translateX(18px); }
+}
+
+/* ── Snowflake Particles ────────────────────────────────────────── */
+.snowflakes {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  will-change: transform, opacity;
+}
+
+/* Primary flakes — crisp */
+.snowflake.primary { background: rgba(255,255,255,0.75); }
+/* Secondary flakes — soft */
+.snowflake.secondary { background: rgba(229,231,235,0.55); }
+/* Blurred depth flakes */
+.snowflake.blurred  { background: rgba(255,255,255,0.45); filter: blur(2.5px); }
+.snowflake.blurred2 { background: rgba(229,231,235,0.40); filter: blur(3.5px); }
+
+/* ── Glassmorphism ──────────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.glass-sm {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.btn {
+  background: #111111;
+  color: #F9FAFB;
+  border: 1px solid #1F2937;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  font-family: inherit;
+}
+.btn:hover {
+  background: #1F2937;
+  border-color: rgba(59,130,246,0.4);
+  box-shadow: 0 0 16px rgba(59,130,246,0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+  font-family: inherit;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 28px rgba(59,130,246,0.45), 0 0 50px rgba(139,92,246,0.25);
+  transform: translateY(-1px);
+}
+
+/* ── Glow Utilities ─────────────────────────────────────────────── */
+.glow-blue   { box-shadow: 0 0 24px rgba(59,130,246,0.3); }
+.glow-violet { box-shadow: 0 0 24px rgba(139,92,246,0.3); }
+.glow-blue-lg { box-shadow: 0 0 40px rgba(59,130,246,0.4), 0 0 80px rgba(59,130,246,0.15); }
+
+/* ── Gradient Text ──────────────────────────────────────────────── */
+.grad-blue {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+/* Legacy alias so existing components still work */
+.grad-cyan { @apply grad-blue; }
+
+/* ── Divider ────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: #1F2937;
+}
+
+/* ── Section heading line ───────────────────────────────────────── */
+.section-line {
+  @apply flex items-center gap-4 mb-8;
+}
+.section-line::before {
+  content: '';
+  @apply block w-8 h-px shrink-0;
+  background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+}
+
+/* ── Chip ───────────────────────────────────────────────────────── */
+.chip {
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium;
+  border: 1px solid currentColor;
+}
+
+/* ── Upload Zone ────────────────────────────────────────────────── */
+.upload-zone {
+  @apply rounded-xl border-2 border-dashed transition-all duration-300 cursor-pointer;
+  border-color: rgba(255,255,255,0.10);
+}
+.upload-zone:hover {
+  border-color: rgba(59,130,246,0.5);
+  background: rgba(59,130,246,0.04);
+}
+
+/* ── Code viewer ────────────────────────────────────────────────── */
+.code-viewer {
+  background: #0A0A0A;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ── Score ring ─────────────────────────────────────────────────── */
+@keyframes ringFill {
+  from { stroke-dashoffset: 283; }
+  to   { stroke-dashoffset: var(--target-offset); }
+}
+.score-ring { animation: ringFill 1.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* ── Pulse dot ──────────────────────────────────────────────────── */
+@keyframes pulseDot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: 0.5; transform: scale(0.8); }
+}
+.pulse-dot { animation: pulseDot 1.5s ease-in-out infinite; }
+
+/* ── Smooth transitions ─────────────────────────────────────────── */
+* { transition-timing-function: ease-in-out; }
+
+/* ── Cards on dark bg ───────────────────────────────────────────── */
+.card-dark {
+  background: #0A0A0A;
+  border: 1px solid #1F2937;
+  border-radius: 16px;
+}
+.card-dark-sm {
+  background: #111111;
+  border: 1px solid #1F2937;
+  border-radius: 12px;
+}
+
+/* ── Fluid Blobs ────────────────────────────────────────────────── */
+@keyframes float-blob {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
